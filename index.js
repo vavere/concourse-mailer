@@ -12,15 +12,17 @@ async function stdin() {
   return buffer.toString('utf8');
 }
 
-//Thin wrapper arround concourse resource interface
+// thin wrapper arround concourse resource interface
 async function main() {
   try {
     console.log = console.warn; // log to stderr
-    console.debug = function () {};  // debug to none
-    const mode = path.basename(process.argv[1]);
+    console.debug = function() {};  // disable debug
     const input = JSON.parse(await stdin());
+    const method = path.basename(process.argv[1]);
     const dest = process.argv[2] || null;
-    const output = JSON.stringify(await resource(mode, input, dest) || null);
+    if (!input) throw new Error('ERROR: empty input!');
+    if (!resource[method]) throw new Error('ERROR: unknown method!');
+    const output = JSON.stringify(await resource[method].call(null, input, dest) || null);
     console.info(output);  // output to stdout
   } catch (e) {
     console.error(e.message || e);
@@ -29,3 +31,4 @@ async function main() {
 }
 
 main();
+
