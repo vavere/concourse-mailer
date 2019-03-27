@@ -1,12 +1,14 @@
 {
   "source": {
       "host": "mail.ma-1.lv",
-      "port": 25
+      "port": 25,
+      "defaults": {
+        "from": "test@ma-1.lv",
+        "to": "lauris@ma-1.lv"
+      }
   },
   "params": {
-      "from": "test@ma-1.lv",
-      "to": "lauris@ma-1.lv",
       "subject": "test",
-      "body": "test body"
+      "text": "test body \\n\\n lauris"
   }
 }
